@@ -1,8 +1,8 @@
 import java.util.LinkedList;
 
-public class MyHashTable<K, V> extends HashNode
+public class MyHashTable<K, V>
 {
-    private LinkedList<HashNode<K, V>>[] chainArray;
+    private LinkedList<HashNode<K, V>>[] chainList;
     private int M = 11;
     private int size;
 
@@ -25,13 +25,27 @@ public class MyHashTable<K, V> extends HashNode
     }
 
     public MyHashTable()
-    {}
+    {
+        chainList = new LinkedList[M];
+        for (int i = 0; i < M; i++)
+        {
+            chainList[i] = new LinkedList<>();
+        }
+        size = 0;
+    }
     public MyHashTable(int M)
     {
+        this.M = M;
+        chainList = new LinkedList[M];
+        for (int i = 0; i < M; i++)
+        {
+            chainList[i] = new LinkedList<>();
+        }
+        size = 0;
     }
     private int hash(K key)
     {
-        return list.add(key);
+        return key.hashCode() % M;
     }
     public void put(K key, V value)
     {}
