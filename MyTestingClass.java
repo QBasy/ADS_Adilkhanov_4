@@ -16,6 +16,5 @@ public class MyTestingClass {
     }
     public boolean equals(Object obj)
     {
-
     }
 }

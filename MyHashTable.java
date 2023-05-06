@@ -2,7 +2,7 @@ import java.util.LinkedList;
 
 public class MyHashTable<K, V>
 {
-    private LinkedList<HashNode<K, V>>[] chainList;
+    private HashNode<K, V>[] chainList;
     private int M = 11;
     private int size;
 
@@ -15,6 +15,7 @@ public class MyHashTable<K, V>
         {
             this.key = key;
             this.value = value;
+
         }
 
         @Override
@@ -26,37 +27,30 @@ public class MyHashTable<K, V>
 
     public MyHashTable()
     {
-        chainList = new LinkedList[M];
-        for (int i = 0; i < M; i++)
-        {
-            chainList[i] = new LinkedList<>();
-        }
-        size = 0;
+        chainList = new HashNode[M];
     }
     public MyHashTable(int M)
     {
         this.M = M;
-        chainList = new LinkedList[M];
-        for (int i = 0; i < M; i++)
-        {
-            chainList[i] = new LinkedList<>();
-        }
-        size = 0;
+        chainList = new HashNode[M];
     }
     private int hash(K key)
     {
-        return key.hashCode() % M;
+        int hash = key.hashCode() % M;
+        return hash < 0 ? hash + M : hash;
     }
     public void put(K key, V value)
-    {}
+    {
+    }
     public V get(K key)
     {}
     public V remove(K key)
     {
-        return (V) list.remove(key);
+        return (V) chainList.;
     }
     public boolean contains(V value)
     {}
     public K getKey(V value)
-    {}
+    {
+    }
 }
