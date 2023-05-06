@@ -1,5 +1,3 @@
-import java.util.LinkedList;
-
 public class MyHashTable<K, V>
 {
     private HashNode<K, V>[] chainList;
@@ -28,29 +26,37 @@ public class MyHashTable<K, V>
     public MyHashTable()
     {
         chainList = new HashNode[M];
+        size = 0;
     }
     public MyHashTable(int M)
     {
         this.M = M;
         chainList = new HashNode[M];
+        size = 0;
     }
     private int hash(K key)
     {
-        int hash = key.hashCode() % M;
-        return hash < 0 ? hash + M : hash;
+        int hashCode = key.hashCode();
+        return Math.abs(hashCode % M);
     }
     public void put(K key, V value)
     {
+        int index = hash(key);
+        HashNode<K, V> node = chainList[index];
+        if (node == null) {
+            chainList[index] = new HashNode<K, V>(key, value)
+        }
     }
     public V get(K key)
     {}
     public V remove(K key)
     {
-        return (V) chainList.;
     }
     public boolean contains(V value)
-    {}
+    {
+    }
     public K getKey(V value)
     {
+
     }
 }
