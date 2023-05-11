@@ -85,14 +85,43 @@ public class MyHashTable<K, V>
     }
     public V remove(K key)
     {
+        int index = hash(key);
+        HashNode<K, V> node = chainList[index];
+        HashNode<K, V> prev = null;
+
+        while (node != null) {
+            if (node.getKey().equals(key)) {
+                if (prev == null) {
+                    chainList[index] = node.getNext();
+                } else {
+                    prev.setNext(node.getNext());
+                }
+                size--;
+                return node.getValue();
+            }
+
+            prev = node;
+            node = node.getNext();
+        }
+
+        return null;
     }
     public boolean contains(V value)
     {
+        for (HashNode<K, V> node : chainList) {
+            while (node != null) {
+                if (node.getValue().equals(value)) {
+                    return true;
+                }
+                node = node.getNext();
+            }
+        }
+        return false;
     }
     public K getKey(V value) {
         for (HashNode<K, V> node : chainList) {
             while (node != null) {
-                if (node.get().equals(value)) {
+                if (node.getValue().equals(value)) {
                     return node.getKey();
                 }
                 node = node.getNext();

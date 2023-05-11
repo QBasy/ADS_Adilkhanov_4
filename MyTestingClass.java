@@ -10,5 +10,9 @@ public class MyTestingClass {
     @Override
     public int hashCode()
     {
+        int result = 17;
+        result = 31 * result + x;
+        result = 31 * result + (y != null ? y.hashCode() : 0);
+        return result;
     }
 }
