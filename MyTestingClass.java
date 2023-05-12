@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Random;
 
 public class MyTestingClass
 {
@@ -23,9 +24,10 @@ public class MyTestingClass
     {
         LinkedList<Integer> list = new LinkedList<>();
         MyHashTable<MyTestingClass, String> ht = new MyHashTable<>();
-        for (int i = 0; i < 9; i++) {
-            int x = i % 100;
-            String y = "Value_" + i;
+        Random random = new Random();
+        for (int i = 0; i < 4; i++) {
+            int x = random.nextInt(100);
+            String y = "Element" + i;
             MyTestingClass key = new MyTestingClass(x, y);
             ht.put(key, y);
             int index = ht.hash(key);
