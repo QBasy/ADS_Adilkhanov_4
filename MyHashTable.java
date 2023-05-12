@@ -19,6 +19,9 @@ public class MyHashTable<K, V>
         public void setNext(HashNode<K, V> next) {
             this.next = next;
         }
+        public void setValue(V value) {
+            this.value = value;
+        }
         public HashNode<K, V> getNext() {
             return next;
         }
@@ -52,80 +55,93 @@ public class MyHashTable<K, V>
     {
         return Math.abs(key.hashCode() % M);
     }
-    public void put(K key, V value)
-    {
-        int index = hash(key);
-        HashNode<K, V> node = chainList[index];
-        HashNode<K, V> prev = null;
-        if (node == null) {
-            chainList[index] = new HashNode<>(key, value);
-            size++;
-        } else {
-            while (node != null) {
-                if (node.getKey().equals(key))
-                {
-                    node.value = value;
-                    return;
-                }
-            }
-        }
+    public void put(K key, V value) {
+        putRecursive(key, value, chainList, 0);
     }
-    public V get(K key)
-    {
-        int index = hash(key);
-        HashNode<K, V> node = chainList[index];
-        while (node != null) {
-            if (node.key.equals(key)) {
-                return node.value;
-            }
-            node = chainList[index+1];
+
+    private void putRecursive(K key, V value, HashNode<K, V>[] chainList, int index) {
+        if (index >= chainList.length) {
+            return;
         }
-        return null;
+        HashNode<K, V> newNode = new HashNode<>(key, value);
+        if (chainList[index] == null) {
+            chainList[index] = newNode;
+            return;
+        }
+        putRecursive(key, value, chainList, index + 1);
     }
-    public V remove(K key)
-    {
-        int index = hash(key);
-        HashNode<K, V> node = chainList[index];
-        HashNode<K, V> prev = null;
 
-        while (node != null) {
-            if (node.getKey().equals(key)) {
-                if (prev == null) {
-                    chainList[index] = node.getNext();
-                } else {
-                    prev.setNext(node.getNext());
-                }
-                size--;
-                return node.getValue();
-            }
+    public V get(K key) {
+        return (V) getRecursive(key, chainList, 0);
+    }
 
-            prev = node;
-            node = node.getNext();
+    private V getRecursive(K key, HashNode<K, V>[] chainList, int index) {
+        if (index >= chainList.length) {
+            return null;
         }
 
-        return null;
-    }
-    public boolean contains(V value)
-    {
-        for (HashNode<K, V> node : chainList) {
-            while (node != null) {
-                if (node.getValue().equals(value)) {
-                    return true;
-                }
-                node = node.getNext();
-            }
+        HashNode<K, V> node = chainList[index];
+        if (node != null && node.getKey().equals(key)) {
+            return node.getValue();
         }
-        return false;
+
+        return getRecursive(key, chainList, index + 1);
     }
+
+    public V remove(K key) {
+        return (V) removeRecursive(key, chainList, 0, null);
+    }
+
+    private V removeRecursive(K key, HashNode<K, V>[] chainList, int index, HashNode<K, V> prev) {
+        if (index >= chainList.length) {
+            return null;
+        }
+
+        HashNode<K, V> node = chainList[index];
+        if (node != null && node.getKey().equals(key)) {
+            if (prev == null) {
+                chainList[index] = node.getNext();
+            } else {
+                prev.setNext(node.getNext());
+            }
+            size--;
+            return node.getValue();
+        }
+
+        return removeRecursive(key, chainList, index + 1, node);
+    }
+
+    public boolean contains(V value) {
+        return containsRecursive(value, chainList, 0);
+    }
+
+    private boolean containsRecursive(V value, HashNode<K, V>[] chainList, int index) {
+        if (index >= chainList.length) {
+            return false;
+        }
+
+        HashNode<K, V> node = chainList[index];
+        if (node != null && node.getValue().equals(value)) {
+            return true;
+        }
+
+        return containsRecursive(value, chainList, index + 1);
+    }
+
     public K getKey(V value) {
-        for (HashNode<K, V> node : chainList) {
-            while (node != null) {
-                if (node.getValue().equals(value)) {
-                    return node.getKey();
-                }
-                node = node.getNext();
-            }
+        return (K) getKeyRecursive(value, chainList, 0);
+    }
+
+    private K getKeyRecursive(V value, HashNode<K, V>[] chainList, int index) {
+        if (index >= chainList.length) {
+            return null;
         }
-        return null;
+
+        HashNode<K, V> node = chainList[index];
+        if (node != null && node.getValue().equals(value)) {
+            return node.getKey();
+        }
+
+        return getKeyRecursive(value, chainList, index + 1);
     }
 }
