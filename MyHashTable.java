@@ -48,10 +48,9 @@ public class MyHashTable<K, V>
         chainList = new HashNode[M];
         size = 0;
     }
-    private int hash(K key)
+    public int hash(K key)
     {
-        int hashCode = key.hashCode();
-        return Math.abs(hashCode % M);
+        return Math.abs(key.hashCode() % M);
     }
     public void put(K key, V value)
     {
