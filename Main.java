@@ -13,22 +13,33 @@ public class Main {
         int a = 0;
         while (a == 0) {
             if (sc.nextInt() == 1) {
-                addElementsRecursive(ht, list, sc.nextInt());
-                printBucketSizesRecursive(list, 0);
-                System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
-                a = sc.nextInt();
-                System.out.println("2 - getKey, 3 - get, 4 - remove");
-                switch (sc.nextInt()) {
-                    case 2:
-                        ht.getKey(sc.next());
-                    case 3:
-                        ht.getKey(sc.next());
-                    case 4:
+                int b = 0;
+                while (b == 0) {
+                    addElementsRecursive(ht, list, sc.nextInt());
+                    printBucketSizesRecursive(list, 0);
+                    System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
+                    a = sc.nextInt();
+                    System.out.println("2 - getKey, 3 - get, 4 - remove");
+                    switch (sc.nextInt()) {
+                        case 2:
+                            ht.getKey(sc.next());
+                            System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
+                            b = sc.nextInt();
+                        case 3:
+                            ht.getKey(sc.next());
+                            System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
+                            b = sc.nextInt();
+                        case 4:
                             String y = "smthg";
                             MyTestingClass key = new MyTestingClass(sc.nextInt(), y);
                             ht.remove(key);
-                    case 5:
-                        ht.contains(sc.next());
+                            System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
+                            b = sc.nextInt();
+                        case 5:
+                            ht.contains(sc.next());
+                            System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
+                            b = sc.nextInt();
+                    }
                 }
             }
         }
