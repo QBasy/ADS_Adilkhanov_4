@@ -26,7 +26,6 @@ public class MyTestingClass
     public static void main(String[] args)
     {
         int count = Main.sc.nextInt();
-
         addElementsRecursive(ht, list, count);
         printBucketSizesRecursive(list);
     }
@@ -36,18 +35,26 @@ public class MyTestingClass
             return;
         }
         int x = random.nextInt(100);
-        String y = "Element_";
+        String y = "Element_" + x;
         MyTestingClass key = new MyTestingClass(x, y);
         ht.put(key, y);
         int index = ht.hash(key);
         list.add(index);
-
         addElementsRecursive(ht, list, count - 1);
     }
 
     private static void printBucketSizesRecursive(LinkedList<Integer> list) {
+        int sum = 0;
         for (int index = 0; index < list.size(); index++) {
             System.out.println("Bucket " + index + ": " + list.get(index) + " elements");
+            sum = sum + list.get(index);
         }
+        sumContainsTenThousand(sum);
+    }
+    private static void sumContainsTenThousand(int sum)
+    {
+        if (sum >= 10000)
+            System.out.println("sum of all elements equal to" + sum);
+        else System.out.println("sum of all elements equal to" + sum + "\nIt doesn't contains 10000 elements");
     }
 }
