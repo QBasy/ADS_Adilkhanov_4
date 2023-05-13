@@ -25,7 +25,7 @@ public class MyTestingClass
     static Random random = new Random();
     public static void main(String[] args)
     {
-        int count = Main.sc.nextInt();
+        int count = 999999999;
         addElementsRecursive(ht, list, count);
         printBucketSizesRecursive(list);
     }
@@ -40,7 +40,11 @@ public class MyTestingClass
         ht.put(key, y);
         int index = ht.hash(key);
         list.add(index);
-        addElementsRecursive(ht, list, count - 1);
+        try {
+            addElementsRecursive(ht, list, count - 1);
+        } catch(StackOverflowError e){
+            System.err.println("ouch!");
+        }
     }
 
     private static void printBucketSizesRecursive(LinkedList<Integer> list) {
@@ -54,7 +58,7 @@ public class MyTestingClass
     private static void sumContainsTenThousand(int sum)
     {
         if (sum >= 10000)
-            System.out.println("sum of all elements equal to" + sum);
-        else System.out.println("sum of all elements equal to" + sum + "\nIt doesn't contains 10000 elements");
+            System.out.println("sum of all elements equal to " + sum);
+        else System.out.println("sum of all elements equal to " + sum + "\nIt doesn't contains 10000 elements");
     }
 }
