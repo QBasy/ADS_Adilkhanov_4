@@ -26,7 +26,7 @@ public class Main {
                             System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
                             b = sc.nextInt();
                         case 3:
-                            ht.getKey(sc.next());
+                            //ht.get();
                             System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
                             b = sc.nextInt();
                         case 4:
