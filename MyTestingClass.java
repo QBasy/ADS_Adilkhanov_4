@@ -26,11 +26,11 @@ public class MyTestingClass
     public static void main(String[] args)
     {
         int count = 999999999;
-        addElementsRecursive(ht, list, count);
-        printBucketSizesRecursive(list);
+        addElements(ht, list, count);
+        printBucketSizes(list);
     }
 
-    private static void addElementsRecursive(MyHashTable<MyTestingClass, String> ht, LinkedList<Integer> list, int count) {
+    private static void addElements(MyHashTable<MyTestingClass, String> ht, LinkedList<Integer> list, int count) {
         if (count == 0) {
             return;
         }
@@ -41,24 +41,28 @@ public class MyTestingClass
         int index = ht.hash(key);
         list.add(index);
         try {
-            addElementsRecursive(ht, list, count - 1);
+            addElements(ht, list, count - 1);
         } catch(StackOverflowError e){
             System.err.println("ouch!");
         }
     }
 
-    private static void printBucketSizesRecursive(LinkedList<Integer> list) {
+    private static void printBucketSizes(LinkedList<Integer> list) {
         int sum = 0;
         for (int index = 0; index < list.size(); index++) {
             System.out.println("Bucket " + index + ": " + list.get(index) + " elements");
             sum = sum + list.get(index);
+            if (sumContainsTenThousand(sum))
+            {
+                System.out.println("sum of all elements equal to " + sum);
+                break;
+            }
         }
-        sumContainsTenThousand(sum);
     }
-    private static void sumContainsTenThousand(int sum)
+    private static boolean sumContainsTenThousand(int sum)
     {
         if (sum >= 10000)
-            System.out.println("sum of all elements equal to " + sum);
-        else System.out.println("sum of all elements equal to " + sum + "\nIt doesn't contains 10000 elements");
+            return true;
+        else return false;
     }
 }
