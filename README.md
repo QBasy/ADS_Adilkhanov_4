@@ -78,7 +78,7 @@
                     exit = true;
                     break;
                 default:
-                    System.out.println("Don't be a \uD83E\uDD21");
+                    System.out.println("Don't be a 🤡");
             }
             System.out.println();
         }
