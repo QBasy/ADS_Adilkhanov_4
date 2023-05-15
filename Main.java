@@ -1,71 +1,72 @@
-import java.util.LinkedList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-    static LinkedList<Integer> list = new LinkedList<>();
-    static MyHashTable<MyTestingClass, String> ht = new MyHashTable<>();
-    static Scanner sc = new Scanner(System.in);
-    public static void main(String[] args)
-    {
-        System.out.println("1 - put");
-        int a = 0;
-        while (a == 0) {
-            if (sc.nextInt() == 1) {
-                int b = 0;
-                while (b == 0) {
-                    addElementsRecursive(ht, list, sc.nextInt());
-                    printBucketSizesRecursive(list, 0);
-                    System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
-                    a = sc.nextInt();
-                    System.out.println("2 - getKey, 3 - get, 4 - remove");
-                    switch (sc.nextInt()) {
-                        case 2:
-                            ht.getKey(sc.next());
-                            System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
-                            b = sc.nextInt();
-                        case 3:
-                            //ht.get();
-                            System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
-                            b = sc.nextInt();
-                        case 4:
-                            String y = "smthg";
-                            MyTestingClass key = new MyTestingClass(sc.nextInt(), y);
-                            ht.remove(key);
-                            System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
-                            b = sc.nextInt();
-                        case 5:
-                            ht.contains(sc.next());
-                            System.out.println("go back to the selection?\n 0 - yes\n 1 - no");
-                            b = sc.nextInt();
+    public static void main(String[] args) {
+        MyHashTable<String, Integer> table = new MyHashTable<>();
+
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+
+        while (!exit) {
+            System.out.println("Enter your choice:");
+            System.out.println("1. Put (key, value)\n2. Get value by key\n3. Remove by key\n4. Check if value exists\n5. Get key by value");
+            System.out.println("6. Exit");
+
+            int n = scanner.nextInt();
+            switch (n) {
+                case 1:
+                    System.out.println("Enter key:");
+                    String key = scanner.next();
+                    System.out.println("Enter value:");
+                    int value = scanner.nextInt();
+                    table.put(key, value);
+                    System.out.println("Value inserted.");
+                    break;
+                case 2:
+                    System.out.println("Enter key:");
+                    key = scanner.next();
+                    Integer result = table.get(key);
+                    if (result != null) {
+                        System.out.println("Value: " + result);
+                    } else {
+                        System.out.println("Key not found.");
                     }
-                }
+                    break;
+                case 3:
+                    System.out.println("Enter key:");
+                    key = scanner.next();
+                    Integer removedValue = table.remove(key);
+                    if (removedValue != null) {
+                        System.out.println("Value removed: " + removedValue);
+                    } else {
+                        System.out.println("Key not found.");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Enter value:");
+                    value = scanner.nextInt();
+                    boolean contains = table.contains(value);
+                    System.out.println("Value exists: " + contains);
+                    break;
+                case 5:
+                    System.out.println("Enter value:");
+                    value = scanner.nextInt();
+                    String foundKey = table.getKey(value);
+                    if (foundKey != null) {
+                        System.out.println("Key: " + foundKey);
+                    } else {
+                        System.out.println("Value not found.");
+                    }
+                    break;
+                case 6:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Don't be a \uD83E\uDD21");
             }
-        }
-    }
-
-    private static void addElementsRecursive(MyHashTable<MyTestingClass, String> ht, LinkedList<Integer> list, int count) {
-        if (count == 0) {
-            return;
-        }
-        Random random = new Random();
-        int x = random.nextInt(100);
-        String y = sc.next();
-        MyTestingClass key = new MyTestingClass(x, y);
-        ht.put(key, y);
-        int index = ht.hash(key);
-        list.add(index);
-
-        addElementsRecursive(ht, list, count - 1);
-    }
-
-    private static void printBucketSizesRecursive(LinkedList<Integer> list, int index) {
-        if (index >= list.size()) {
-            return;
+            System.out.println();
         }
 
-        System.out.println("Bucket " + index + ": " + list.get(index) + " elements");
-
-        printBucketSizesRecursive(list, index + 1);
+        System.out.println("Program exited.");
     }
 }

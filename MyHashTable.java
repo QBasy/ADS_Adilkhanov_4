@@ -103,8 +103,8 @@ public class MyHashTable<K, V>
         return removeRecursive(key, chainList, index + 1, node);
     }
 
-    public void contains(V value) {
-        containsRecursive(value, chainList, 0);
+    public boolean contains(V value) {
+        return containsRecursive(value, chainList, 0);
     }
 
     private boolean containsRecursive(V value, HashNode<K, V>[] chainList, int index) {
