@@ -5,7 +5,7 @@
 ---
 
 
-# Main 🚀 [Link](src/Main.java)
+# Main 🚀 [Link](Main.java)
 
 ```java
 
