@@ -13,14 +13,15 @@ public class Main {
             System.out.println("6. Exit");
 
             int n = scanner.nextInt();
-            switch (n) {
+            switch (n)
+            {
                 case 1:
                     System.out.println("Enter key:");
                     String key = scanner.next();
                     System.out.println("Enter value:");
                     int value = scanner.nextInt();
                     table.put(key, value);
-                    System.out.println("Value inserted.");
+                    System.out.println("Value inserted)))");
                     break;
                 case 2:
                     System.out.println("Enter key:");
@@ -29,17 +30,19 @@ public class Main {
                     if (result != null) {
                         System.out.println("Value: " + result);
                     } else {
-                        System.out.println("Key not found.");
+                        System.out.println("Key not found(((");
                     }
                     break;
                 case 3:
                     System.out.println("Enter key:");
                     key = scanner.next();
                     Integer removedValue = table.remove(key);
-                    if (removedValue != null) {
-                        System.out.println("Value removed: " + removedValue);
-                    } else {
-                        System.out.println("Key not found.");
+                    if (removedValue != null)
+                    {
+                        System.out.println("Press F for value: " + removedValue);
+                    } else
+                    {
+                        System.out.println("Key not found(((");
                     }
                     break;
                 case 4:
@@ -52,10 +55,11 @@ public class Main {
                     System.out.println("Enter value:");
                     value = scanner.nextInt();
                     String foundKey = table.getKey(value);
-                    if (foundKey != null) {
+                    if (foundKey != null)
+                    {
                         System.out.println("Key: " + foundKey);
                     } else {
-                        System.out.println("Value not found.");
+                        System.out.println("No such value(((.");
                     }
                     break;
                 case 6:
@@ -67,6 +71,6 @@ public class Main {
             System.out.println();
         }
 
-        System.out.println("Program exited.");
+        System.out.println("Good bye)))");
     }
 }
