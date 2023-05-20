@@ -78,7 +78,7 @@
                     exit = true;
                     break;
                 default:
-                    System.out.println("Don't be a \uD83E\uDD21");
+                    System.out.println("Don't be a 🤡");
             }
             System.out.println();
         }
@@ -89,7 +89,7 @@
 
 ---
 
-# Main 🚀 [Link](MyHashTable.java)
+# Class MyHashTable 🚀 [Link](MyHashTable.java)
 
 ```java
     private HashNode[] chainList;
@@ -142,11 +142,217 @@
     }
 ```
 
-## Method int hash
+## Method hash
 
 ```java
     public int hash(K key)
     {
         return Math.abs(key.hashCode() % M);
+    }
+```
+
+## Method put & putRecursive
+
+```java
+    public void put(K key, V value)
+    {
+        putRecursive(key, value, chainList, 0);
+    }
+
+    private void putRecursive(K key, V value, HashNode<K, V>[] chainList, int index)
+    {
+        if (index >= chainList.length)
+        {
+            return;
+        }
+        HashNode<K, V> newNode = new HashNode<>(key, value);
+        if (chainList[index] == null)
+        {
+            chainList[index] = newNode;
+            return;
+        }
+        putRecursive(key, value, chainList, index + 1);
+    }
+```
+
+## Method get & getRecursive
+
+```java
+    public V get(K key)
+    {
+        return (V) getRecursive(key, chainList, 0);
+    }
+
+    private V getRecursive(K key, HashNode<K, V>[] chainList, int index)
+    {
+        if (index >= chainList.length)
+        {
+            return null;
+        }
+        HashNode<K, V> node = chainList[index];
+        if (node != null && node.getKey().equals(key))
+        {
+            return node.getValue();
+        }
+        return getRecursive(key, chainList, index + 1);
+    }
+```
+
+## Method remove & removeRecursive
+
+```java
+    public V remove(K key)
+    {
+        return (V) removeRecursive(key, chainList, 0, null);
+    }
+
+    private V removeRecursive(K key, HashNode<K, V>[] chainList, int index, HashNode<K, V> prev) {
+        if (index >= chainList.length)
+        {
+            return null;
+        }
+        HashNode<K, V> node = chainList[index];
+        if (node != null && node.getKey().equals(key))
+        {
+            if (prev == null) {
+                chainList[index] = node.getNext();
+            } else {
+                prev.setNext(node.getNext());
+            }
+            return node.getValue();
+        }
+        return removeRecursive(key, chainList, index + 1, node);
+    }
+```
+
+## Method conatins and containsRecursive
+
+```java
+    public boolean contains(V value)
+    {
+        return containsRecursive(value, chainList, 0);
+    }
+
+    private boolean containsRecursive(V value, HashNode<K, V>[] chainList, int index)
+    {
+        if (index >= chainList.length)
+        {
+            return false;
+        }
+        HashNode<K, V> node = chainList[index];
+        if (node != null && node.getValue().equals(value))
+        {
+            return true;
+        }
+        return containsRecursive(value, chainList, index + 1);
+    }
+```
+
+## Method getKey and getKeyRecursive
+
+```java
+    public K getKey(V value)
+    {
+        return (K) getKeyRecursive(value, chainList, 0);
+    }
+
+    private K getKeyRecursive(V value, HashNode<K, V>[] chainList, int index)
+    {
+        if (index >= chainList.length)
+        {
+            return null;
+        }
+        HashNode<K, V> node = chainList[index];
+        if (node != null && node.getValue().equals(value))
+        {
+            return node.getKey();
+        }
+        return getKeyRecursive(value, chainList, index + 1);
+    }
+```
+
+---
+
+# Class MyTestingClass 🚀 [Link](MyTestingClass.java)
+
+```java
+    private int x;
+    private String y;
+
+    public MyTestingClass(int x, String y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+    @Override
+    public int hashCode()
+    {
+        int result = 21;
+        result = 47 * result + x;
+        result = 47 * result + (y != null ? y.hashCode() : 0);
+        return result;
+    }
+
+    static LinkedList<Integer> list = new LinkedList<>();
+    static MyHashTable<MyTestingClass, String> ht = new MyHashTable<>();
+    static Random random = new Random();
+    public static void main(String[] args)
+    {
+        int count = 999999999;
+        addElements(ht, list, count);
+        printBucketSizes(list);
+    }
+```
+
+## Method addElement
+
+```java
+    private static void addElements(MyHashTable<MyTestingClass, String> ht, LinkedList<Integer> list, int count) 
+    {
+        if (count == 0) 
+        {
+            return;
+        }
+        int x = random.nextInt(100);
+        String y = "Element_" + x;
+        MyTestingClass key = new MyTestingClass(x, y);
+        ht.put(key, y);
+        int index = ht.hash(key);
+        list.add(index);
+        try
+        {
+            addElements(ht, list, count - 1);
+        } catch(StackOverflowError e){
+            System.err.println("ouch!");
+        }
+    }
+```
+
+## Method printBucketSize
+
+```java
+    private static void printBucketSizes(LinkedList<Integer> list) 
+    {
+        int sum = 0;
+        for (int index = 0; index < list.size(); index++) {
+            System.out.println("Bucket " + index + ": " + list.get(index) + " elements");
+            sum = sum + list.get(index);
+            if (sumContainsTenThousand(sum))
+            {
+                System.out.println("sum of all elements equal to " + sum);
+                break;
+            }
+        }
+    }
+```
+
+## Method sumContainsTenThousand
+
+```java
+    private static boolean sumContainsTenThousand(int sum)
+    {
+        if (sum >= 10000)
+            return true;
+        else return false;
     }
 ```
