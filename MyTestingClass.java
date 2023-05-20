@@ -14,10 +14,10 @@ public class MyTestingClass
     @Override
     public int hashCode()
     {
-        int result = 21;
-        result = 47 * result + x;
-        result = 47 * result + (y != null ? y.hashCode() : 0);
-        return result;
+        int hash = 21;
+        hash = 47 * hash + x;
+        hash = 47 * hash + (y != null ? y.hashCode() : 0);
+        return hash;
     }
 
     static LinkedList<Integer> list = new LinkedList<>();
@@ -61,8 +61,7 @@ public class MyTestingClass
     }
     private static boolean sumContainsTenThousand(int sum)
     {
-        if (sum >= 10000)
-            return true;
+        if (sum >= 10000) return true;
         else return false;
     }
 }

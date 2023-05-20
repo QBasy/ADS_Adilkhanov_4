@@ -23,6 +23,10 @@ public class MyHashTable<K, V>
         {
             this.value = value;
         }
+        public void setKey(K key)
+        {
+            this.key = key;
+        }
         public HashNode<K, V> getNext()
         {
             return next;
@@ -95,13 +99,19 @@ public class MyHashTable<K, V>
         }
         return getRecursive(key, chainList, index + 1);
     }
+    public HashNode[] getBucket(K key)
+    {
+        int index = hash(key);
+        return new HashNode[]{chainList[index]};
+    }
 
     public V remove(K key)
     {
         return (V) removeRecursive(key, chainList, 0, null);
     }
 
-    private V removeRecursive(K key, HashNode<K, V>[] chainList, int index, HashNode<K, V> prev) {
+    private V removeRecursive(K key, HashNode<K, V>[] chainList, int index, HashNode<K, V> prev)
+    {
         if (index >= chainList.length)
         {
             return null;
@@ -155,5 +165,43 @@ public class MyHashTable<K, V>
             return node.getKey();
         }
         return getKeyRecursive(value, chainList, index + 1);
+    }
+    public void moveValues(K key) {
+        HashNode<K, V>[] newChainList = new HashNode[M];
+        moveValuesRecursive(key, chainList, newChainList, 0);
+        chainList = newChainList;
+    }
+
+    private void moveValuesRecursive(K key, HashNode<K, V>[] sourceChainList, HashNode<K, V>[] destChainList, int index) {
+        if (index >= sourceChainList.length) {
+            return;
+        }
+
+        HashNode<K, V> node = sourceChainList[index];
+        moveValuesForKey(key, node, destChainList, index);
+
+        moveValuesRecursive(key, sourceChainList, destChainList, index + 1);
+    }
+
+    private void moveValuesForKey(K key, HashNode<K, V> node, HashNode<K, V>[] destChainList, int index) {
+        if (node == null) {
+            return;
+        }
+
+        if (node.getKey().equals(key))
+        {
+            HashNode<K, V> newNode = new HashNode<>(node.getKey(), node.getValue());
+            if (destChainList[index] == null) {
+                destChainList[index] = newNode;
+            } else {
+                HashNode<K, V> current = destChainList[index];
+                while (current.getNext() != null) {
+                    current = current.getNext();
+                }
+                current.setNext(newNode);
+            }
+        }
+
+        moveValuesForKey(key, node.getNext(), destChainList, index);
     }
 }
